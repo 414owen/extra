@@ -62,11 +62,14 @@ appendl (x :| xs) l = x :| (xs ++ l)
 appendr :: [a] -> NonEmpty a -> NonEmpty a
 appendr l nel = foldr cons nel l
 
+-- This was added to `NonEmpty` in base 4.20.0
+#if !(MIN_VERSION_base(4,20,0))
 -- | Sort by comparing the results of a function applied to each element.
 --   The sort is stable, and the function is evaluated only once for
 --   each element.
 sortOn :: Ord b => (a -> b) -> NonEmpty a -> NonEmpty a
 sortOn f = fromList . List.sortOn f . toList
+#endif
 
 -- | Return the union of two non-empty lists. Duplicates, and elements of the
 --   first list, are removed from the the second list, but if the first list
